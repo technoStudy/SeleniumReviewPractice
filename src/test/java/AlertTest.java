@@ -28,8 +28,24 @@ public class AlertTest {
 
     @Test
     public void confirmAlert(){
+        String expectedText = "You pressed OK!";
+        driver.findElement( By.cssSelector( "button[onclick=\"myConfirmFunction()\"]" ) ).click();
+        driver.switchTo().alert().accept();
+        String actualText = driver.findElement( By.id( "confirm-demo" ) ).getText();
 
+        Assert.assertEquals( actualText, expectedText );
     }
+
+    @Test
+    public void confirmDismissAlert(){
+        String expectedText = "You pressed Cancel!";
+        driver.findElement( By.cssSelector( "button[onclick=\"myConfirmFunction()\"]" ) ).click();
+        driver.switchTo().alert().dismiss();
+        String actualText = driver.findElement( By.id( "confirm-demo" ) ).getText();
+
+        Assert.assertEquals( actualText, expectedText );
+    }
+
     @AfterClass
     public void quit(){
         driver.quit();
