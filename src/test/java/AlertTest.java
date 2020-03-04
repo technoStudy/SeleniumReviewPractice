@@ -46,6 +46,32 @@ public class AlertTest {
         Assert.assertEquals( actualText, expectedText );
     }
 
+    @Test
+    public void promptAlert(){
+        String testText = "I am not robot";
+        String expectedText = "You have entered '"+testText+"' !";
+        driver.findElement( By.cssSelector( "button[onclick=\"myPromptFunction()\"]" ) ).click();
+        driver.switchTo().alert().sendKeys( testText );
+        driver.switchTo().alert().accept();
+        String actualText = driver.findElement( By.id( "prompt-demo" ) ).getText();
+
+        Assert.assertEquals( actualText, expectedText );
+
+    }
+
+    @Test(dependsOnMethods = {"promptAlert"})
+    public void promptDismissAlert(){
+        String testText = "Other text";
+        String expectedText = "You have entered '"+testText+"' !";
+
+        driver.findElement( By.cssSelector( "button[onclick=\"myPromptFunction()\"]" ) ).click();
+        driver.switchTo().alert().sendKeys( testText );
+        driver.switchTo().alert().dismiss();
+        String actualText = driver.findElement( By.id( "prompt-demo" ) ).getText();
+
+        Assert.assertNotEquals( actualText, expectedText );
+    }
+
     @AfterClass
     public void quit(){
         driver.quit();
